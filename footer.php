@@ -1,0 +1,1 @@
+<footer class="site-footer"><div class="site-footer-inner"><a class="brand" href="<?php echo esc_url(home_url('/')); ?>"><span class="brand-mark">L</span><span class="brand-name">Locke Games</span></a><p>Jogos, cultura e tudo que faz a gente apertar start.</p></div></footer><?php wp_footer(); ?></body></html>
