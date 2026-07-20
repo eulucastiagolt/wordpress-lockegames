@@ -1,15 +1,114 @@
-<?php get_header(); $demo = lockegames_demo_posts(); ?>
+<?php
+get_header();
+$lockegames_used_ids = array();
+$hero_query = new WP_Query(array('post_type' => 'post', 'posts_per_page' => 4, 'ignore_sticky_posts' => true));
+?>
 <main id="main-content" class="site-main">
-  <section class="hero" aria-labelledby="hero-title">
-    <span class="eyebrow">A revista gamer do seu jeito</span>
-    <?php if (have_posts()) : the_post(); ?>
-      <div class="hero-grid"><article class="featured-story"><a href="<?php the_permalink(); ?>"><img src="<?php echo esc_url(lockegames_image(0)); ?>" alt="<?php the_title_attribute(); ?>"><div class="featured-copy"><span class="eyebrow"><?php echo esc_html(get_the_category()[0]->name ?? 'Destaque'); ?></span><h1 id="hero-title"><?php the_title(); ?></h1><span class="meta"><?php echo esc_html(get_the_date('j \d\e F \d\e Y')); ?> · <?php echo esc_html(get_the_time('H:i')); ?></span></div></a></article>
-        <div class="side-stories">
-          <?php $side = new WP_Query(array('posts_per_page' => 2, 'offset' => 1)); if ($side->have_posts()) : while ($side->have_posts()) : $side->the_post(); ?><article class="mini-story"><a href="<?php the_permalink(); ?>"><img src="<?php echo esc_url(lockegames_image(1)); ?>" alt="<?php the_title_attribute(); ?>"></a><div class="mini-copy"><span class="meta"><?php echo esc_html(get_the_date('j \d\e F')); ?></span><h2><a href="<?php the_permalink(); ?>"><?php the_title(); ?></a></h2></div></article><?php endwhile; wp_reset_postdata(); else : foreach (array_slice($demo, 1, 2) as $post) : ?><article class="mini-story"><a href="<?php echo esc_url($post['url']); ?>"><img src="<?php echo esc_url(lockegames_image($post['image'])); ?>" alt=""></a><div class="mini-copy"><span class="meta"><?php echo esc_html($post['date']); ?></span><h2><a href="<?php echo esc_url($post['url']); ?>"><?php echo esc_html($post['title']); ?></a></h2></div></article><?php endforeach; endif; ?></div>
-      </div>
-    <?php else : ?><div class="hero-grid"><article class="featured-story"><a href="#"><img src="<?php echo esc_url(lockegames_image(0)); ?>" alt=""><div class="featured-copy"><span class="eyebrow">Notícias</span><h1 id="hero-title"><?php echo esc_html($demo[0]['title']); ?></h1><span class="meta"><?php echo esc_html($demo[0]['date']); ?></span></div></a></article><div class="side-stories"><?php foreach (array_slice($demo, 1, 2) as $post) : ?><article class="mini-story"><a href="#"><img src="<?php echo esc_url(lockegames_image($post['image'])); ?>" alt=""></a><div class="mini-copy"><span class="meta"><?php echo esc_html($post['date']); ?></span><h2><a href="#"><?php echo esc_html($post['title']); ?></a></h2></div></article><?php endforeach; ?></div></div><?php endif; ?>
-  </section>
-  <section class="section" aria-labelledby="latest-title"><div class="section-heading"><h2 id="latest-title">Publicações recentes</h2><a class="button" href="<?php echo esc_url(get_post_type_archive_link('post') ?: home_url('/')); ?>">Ver tudo</a></div><div class="article-grid">
-    <?php $latest = new WP_Query(array('posts_per_page' => 6)); if ($latest->have_posts()) : while ($latest->have_posts()) : $latest->the_post(); ?><article class="article-card"><a href="<?php the_permalink(); ?>"><img src="<?php echo esc_url(lockegames_image(get_the_ID())); ?>" alt="<?php the_title_attribute(); ?>"></a><span class="meta"><?php echo esc_html(get_the_date('j \d\e F \d\e Y')); ?></span><h3><a href="<?php the_permalink(); ?>"><?php the_title(); ?></a></h3><p><?php echo esc_html(wp_trim_words(get_the_excerpt(), 14)); ?></p></article><?php endwhile; wp_reset_postdata(); else : foreach ($demo as $post) : ?><article class="article-card"><a href="<?php echo esc_url($post['url']); ?>"><img src="<?php echo esc_url(lockegames_image($post['image'])); ?>" alt=""></a><span class="meta"><?php echo esc_html($post['date']); ?></span><h3><a href="<?php echo esc_url($post['url']); ?>"><?php echo esc_html($post['title']); ?></a></h3><p>Notícias, ideias e descobertas para quem vive o universo dos games.</p></article><?php endforeach; endif; ?></div></section>
-  <section class="category-band" aria-labelledby="free-title"><div class="section-heading"><h2 id="free-title">Jogos grátis</h2><a class="button" href="<?php echo esc_url(home_url('/?s=jogos+grátis')); ?>">Ver tudo</a></div><div class="article-grid"><?php foreach (array_slice($demo, 3, 3) as $post) : ?><article class="article-card"><a href="<?php echo esc_url($post['url']); ?>"><img src="<?php echo esc_url(lockegames_image($post['image'])); ?>" alt=""></a><span class="meta"><?php echo esc_html($post['date']); ?></span><h3><a href="<?php echo esc_url($post['url']); ?>"><?php echo esc_html($post['title']); ?></a></h3></article><?php endforeach; ?></div></section>
-</main><?php get_footer(); ?>
+    <div class="container-xl mx-auto pt-4 pb-20">
+        <section class="hero" aria-labelledby="hero-title">
+            <?php if ($hero_query->have_posts()) : ?>
+                <div class="hero-grid grid grid-cols-4 gap-4">
+                    <?php
+                        $index = 0;
+                        while ($hero_query->have_posts()){
+                            $hero_query->the_post();
+                            $lockegames_used_ids[] = get_the_ID();
+
+                            if ( $index === 0 ){
+                                $post_container = " col-span-2 row-span-2 ";
+                            } elseif ( $index === 1 ){
+                                $post_container = " col-span-2 row-span-1 aspect-video";
+                            }else{
+                                $post_container = " col-span-1 row-span-1 aspect-square";
+                            }
+
+                            get_template_part('template-parts/content', 'hero', [
+                                'post_container' => 'group/card-hero relative rounded-3xl overflow-hidden' . $post_container ,
+                                'post_content' => 'absolute bottom-0 w-full h-full bg-linear-to-t from-black/90 to-black/0 flex flex-col justify-end p-6',
+                                'post_image' => 'w-full h-full object-cover',
+                                'post_image_container' => 'flex w-full h-full',
+                                'post_title' => 'text-2xl font-bold text-white group-hover/card-hero:text-orange line-clamp-3',
+                            ]);
+                            
+                            $index++;
+                        };
+                    ?>
+                </div>
+            <?php else : ?>
+                <div class="empty-state">Ainda não há publicações. Adicione posts no painel do WordPress para preencher a revista.</div>
+            <?php endif; wp_reset_postdata(); ?>
+        </section>
+    </div>
+
+    <div class="container-xl py-20">
+        <div class="grid grid-cols-12 gap-6">
+            <div class="col-span-12 lg:col-span-7">
+                <?php
+                    get_template_part(
+                        'template-parts/section', 'posts',
+                        [
+                            'title' => 'Notícias',
+                            'class' => 'news-section',
+                            'post-class' => '',
+                            'post-list-class' => 'grid grid-cols-3 gap-3',
+                            'query' => [
+                                'posts_per_page' => 9
+                            ]
+                        ]
+                    ); ?>
+            </div>
+            <div class="col-span-12 lg:col-span-5">
+                <?php
+                    get_template_part('template-parts/section', 'posts-horizontal', [
+                        'title' => 'Lançamentos',
+                        'class' => 'release-section compact-section',
+                        'post-list-class' => 'flex flex-col gap-3',
+                        'query' => [
+                            'posts_per_page' => 5,
+                            'category_name' => 'lancamento'
+                        ]
+                    ]);
+                    ?>
+            </div>
+        </div>
+    </div>
+
+    <div class="bg-white py-20">
+        <div class="container-xl mx-auto">
+            <?php 
+                get_template_part('template-parts/section', 'posts', 
+                [
+                    'title' => 'PC',
+                    'class' => 'pc-section',
+                    'post-class' => '',
+                    'post-list-class' => 'grid grid-cols-4 gap-3',
+                    'query' => [
+                        'posts_per_page' => 8,
+                        'category_name' => 'pc'
+                    ]
+                ]);
+            ?>
+        </div>
+    <div>
+        
+    <section class="platform-sections container-xl">
+        <div class="platform-grid grid grid-cols-1 gap-6 lg:grid-cols-3">
+            <?php get_template_part('template-parts/section', 'posts-horizontal', array('title' => 'Xbox', 'class' => 'platform-section xbox-section', 'post-list-class' => 'flex flex-col gap-3', 'query' => array('posts_per_page' => 4, 'category_name' => 'xbox'))); ?>
+            <?php get_template_part('template-parts/section', 'posts-horizontal', array('title' => 'PlayStation', 'class' => 'platform-section playstation-section', 'post-list-class' => 'flex flex-col gap-3', 'query' => array('posts_per_page' => 4, 'category_name' => 'playstation'))); ?>
+            <?php get_template_part('template-parts/section', 'posts-horizontal', array('title' => 'Nintendo', 'class' => 'platform-section nintendo-section', 'post-list-class' => 'flex flex-col gap-3', 'query' => array('posts_per_page' => 4, 'category_name' => 'nintendo'))); ?>
+        </div>
+    </section>
+
+    <section class="container-xl">
+        <?php get_template_part('template-parts/section', 'posts', array('title' => 'eSports', 'class' => 'esports-section', 'query' => array('posts_per_page' => 3, 'category_name' => 'esports'))); ?>
+        <?php get_template_part('template-parts/section', 'posts', array('title' => 'Reviews', 'class' => 'reviews-section', 'query' => array('posts_per_page' => 4, 'category_name' => 'reviews'))); ?>
+        <?php get_template_part('template-parts/section', 'posts-horizontal', [
+                'title' => 'Eventos',
+                'class' => 'events-section',
+                'post-list-class' => 'grid grid-cols-1 md:grid-cols-2 gap-4',
+                'query' => array('posts_per_page' => 4, 'category_name' => 'eventos')
+            ]); 
+        ?>
+    </section>
+</main>
+<?php get_footer(); ?>

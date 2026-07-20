@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 800" role="img" aria-label="Locke Games">
+  <defs><linearGradient id="g" x1="0" x2="1" y1="0" y2="1"><stop stop-color="#9c44b9"/><stop offset="1" stop-color="#5b6abf"/></linearGradient></defs>
+  <rect width="1200" height="800" fill="url(#g)"/><circle cx="1040" cy="100" r="260" fill="#f7941d" opacity=".25"/><circle cx="120" cy="720" r="290" fill="#e85a8f" opacity=".2"/>
+  <path d="M540 240h120l-36 155h110L515 610l35-160H440z" fill="#fff" opacity=".9"/>
+</svg>

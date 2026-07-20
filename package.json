@@ -1,0 +1,15 @@
+{
+  "version": "1.0.1",
+  "private": true,
+  "scripts": {
+    "build": "dir-archiver --src . --dest ../_lockegames.zip --exclude .DS_Store .gitignore .gitattributes composer.json composer.lock gulpfile.js package.json package-lock.json yarn.lock node_modules .yarn .pnp.* pnpm-* .pnpm.* yarn.* app tailwind.config.*",
+    "build:css": "tailwindcss -i ./src/tailwind.css -o ./assets/css/tailwind.css --minify",
+    "watch:css": "tailwindcss -i ./src/tailwind.css -o ./assets/css/tailwind.css --watch"
+  },
+  "devDependencies": {
+    "@fortawesome/fontawesome-free": "^7.3.1",
+    "@tailwindcss/cli": "^4.1.11",
+    "dir-archiver": "^2.1.0",
+    "tailwindcss": "^4.1.11"
+  }
+}
