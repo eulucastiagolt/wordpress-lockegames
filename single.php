@@ -17,6 +17,7 @@ get_header();
         if (!$description) {
             $description = wp_trim_words(wp_strip_all_tags(get_the_content()), 34);
         }
+        $description = preg_replace('/\s*(?:\[\s*(?:&hellip;|&#8230;|…|\.\.\.)\s*\]|(?:&hellip;|&#8230;|…|\.\.\.))\s*$/u', '', $description);
         if (!$image) {
             $image = get_template_directory_uri() . '/assets/game-placeholder.svg';
         }
@@ -123,7 +124,7 @@ get_header();
                     <?php dynamic_sidebar('post-sidebar'); ?>
                 <?php else : ?>
                     <section class="widget post-sidebar-widget">
-                        <h2 class="widget-title"><?php esc_html_e('Visto por outros leitores', 'lockegames'); ?></h2>
+                        <h2 class="widget-title"><?php esc_html_e('Visto por outros Gamers', 'lockegames'); ?></h2>
                         <?php
                         $popular = new WP_Query(array(
                             'post_type' => 'post',
@@ -145,7 +146,7 @@ get_header();
                                     ?>
                                     <a class="sidebar-post-link" href="<?php the_permalink(); ?>">
                                         <img src="<?php echo esc_url($thumb); ?>" alt="<?php the_title_attribute(); ?>" loading="lazy" decoding="async">
-                                        <span><?php the_title(); ?></span>
+                                        <span class="line-clamp-2"><?php the_title(); ?></span>
                                     </a>
                                     <?php
                                 endwhile;

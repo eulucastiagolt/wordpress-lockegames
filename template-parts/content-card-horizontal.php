@@ -12,7 +12,7 @@
             </div>
             <div class="flex flex-col justify-center col-span-9 p-0">
                 <span class="meta"><?php echo esc_html(lockegames_relative_post_date()); ?></span>
-                <h3 class="group-hover/card:text-purple line-clamp-2 text-lg/7">
+                <h3 class="group-hover/card:text-purple line-clamp-2 text-base/6">
                     <?php the_title(); ?>
                 </h3>
                 <?php if (!empty($args['excerpt'])): ?><p><?php echo esc_html(wp_trim_words(get_the_excerpt(), 16)); ?></p><?php endif; ?>

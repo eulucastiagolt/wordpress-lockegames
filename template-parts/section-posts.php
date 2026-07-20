@@ -4,6 +4,7 @@
     $query_args['post__not_in'] = $lockegames_used_ids;
     $section_query = new WP_Query($query_args);
     if (!$section_query->have_posts()) {
+        wp_reset_postdata();
         return;
     }
 
@@ -41,4 +42,6 @@
             ?>
     </div>
 </section>
-<?php wp_reset_postdata(); ?>
+<?php
+    wp_reset_postdata();
+?>

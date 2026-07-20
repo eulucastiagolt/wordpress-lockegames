@@ -3,7 +3,10 @@
     $query_args = wp_parse_args($args['query'] ?? array(), array('post_type' => 'post', 'posts_per_page' => 4, 'ignore_sticky_posts' => true));
     $query_args['post__not_in'] = $lockegames_used_ids;
     $section_query = new WP_Query($query_args);
-    if (!$section_query->have_posts()) { return; }
+    if (!$section_query->have_posts()) {
+        wp_reset_postdata();
+        return;
+    }
     [
         'post-class' => $post_class,
         'post-list-class' => $post_list_class,
@@ -29,4 +32,6 @@
         ?>
     </div>
 </section>
-<?php wp_reset_postdata(); ?>
+<?php
+    wp_reset_postdata();
+?>

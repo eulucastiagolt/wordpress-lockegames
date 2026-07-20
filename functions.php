@@ -69,6 +69,6 @@ function lockegames_assets() {
     $stylesheet = get_stylesheet_directory() . '/style.css';
     $version = file_exists($stylesheet) ? filemtime($stylesheet) : '1.0.0';
     wp_enqueue_style('lockegames-style', get_stylesheet_uri(), array('lockegames-fonts', 'lockegames-fontawesome', 'lockegames-tailwind'), $version);
-    wp_enqueue_script('lockegames-menu', get_template_directory_uri() . '/assets/js/menu.js', array(), '1.0.1', true);
+    wp_enqueue_script('lockegames-menu', get_template_directory_uri() . '/assets/js/menu.js', array(), '1.0.2', true);
 }
 add_action('wp_enqueue_scripts', 'lockegames_assets');

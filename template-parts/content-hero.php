@@ -25,7 +25,7 @@
             <img class="<?php echo $post_image; ?>" src="<?php echo esc_url($image); ?>" alt="<?php the_title_attribute(); ?>" loading="lazy" decoding="async">
         </div>
     <div class="<?php echo $post_content; ?>">
-        <span class="meta"><?php echo esc_html(lockegames_relative_post_date()); ?></span>
+        <span class="text-xs text-pink font-bold"><?php echo esc_html(lockegames_relative_post_date()); ?></span>
         <h2 class="<?php echo $post_title; ?>">
             <?php the_title(); ?>
         </h2>

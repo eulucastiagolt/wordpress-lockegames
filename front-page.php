@@ -27,7 +27,7 @@ $hero_query = new WP_Query(array('post_type' => 'post', 'posts_per_page' => 4, '
                                 'post_content' => 'absolute bottom-0 w-full h-full bg-linear-to-t from-black/90 to-black/0 flex flex-col justify-end p-6',
                                 'post_image' => 'w-full h-full object-cover',
                                 'post_image_container' => 'flex w-full h-full',
-                                'post_title' => 'text-2xl font-bold text-white group-hover/card-hero:text-orange line-clamp-3',
+                                'post_title' => 'text-xl/6 text-white group-hover/card-hero:text-orange line-clamp-3',
                             ]);
                             
                             $index++;
@@ -36,7 +36,8 @@ $hero_query = new WP_Query(array('post_type' => 'post', 'posts_per_page' => 4, '
                 </div>
             <?php else : ?>
                 <div class="empty-state">Ainda não há publicações. Adicione posts no painel do WordPress para preencher a revista.</div>
-            <?php endif; wp_reset_postdata(); ?>
+            <?php endif; ?>
+            <?php wp_reset_postdata(); ?>
         </section>
     </div>
 
