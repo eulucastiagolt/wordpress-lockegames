@@ -52,7 +52,7 @@ get_header();
                     </span>
                     <span><i class="fa-regular fa-calendar"></i> <?php echo esc_html(lockegames_relative_post_date()); ?></span>
                     <?php if (!empty($categories)) : ?>
-                        <span class="post-labels-custom">
+                        <span class="post-labels-custom hidden">
                             <?php foreach ($categories as $category) : ?>
                                 <a href="<?php echo esc_url(get_category_link($category)); ?>"><?php echo esc_html($category->name); ?></a>
                             <?php endforeach; ?>
@@ -116,6 +116,12 @@ get_header();
                     <?php
                 endif;
                 wp_reset_postdata();
+                ?>
+
+                <?php
+                if (comments_open() || get_comments_number()) {
+                    comments_template();
+                }
                 ?>
             </article>
 

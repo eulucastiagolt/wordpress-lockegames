@@ -1,5 +1,5 @@
 {
-  "version": "1.0.2",
+  "version": "1.0.3",
   "private": true,
   "scripts": {
     "build": "dir-archiver --src . --dest ../_lockegames.zip --exclude .DS_Store .gitignore .gitattributes composer.json composer.lock gulpfile.js package.json package-lock.json yarn.lock node_modules .yarn .pnp.* pnpm-* .pnpm.* yarn.* app tailwind.config.*",
