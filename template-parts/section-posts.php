@@ -14,18 +14,23 @@
         'columns' => $columns,
         'columns_mobile' => $columns_mobile,
         'class' => $class,
+        'category_name' => $category_name
     ] = $args + [
         'post-class' => 'col-12',
         'post-list-class' => '',
         'class'=>'',
         'columns' => 3,
-        'columns_mobile' => 2
+        'columns_mobile' => 2,
+        'category_name' => 'Noticias'
     ];
+
+    $category = get_term_by('name', $category_name, 'category');
+    $category_url = get_category_link($category->term_id);
 ?>
 <section class="home-section <?php echo esc_attr($class); ?>">
     <div class="section-heading">
-        <h2><?php echo esc_html($args['title'] ?? 'Publicações'); ?></h2>
-        <a class="button" href="<?php echo esc_url(get_post_type_archive_link('post') ?: home_url('/')); ?>">Ver tudo</a>
+        <h2><?php echo esc_html($category->name ?? 'Publicações'); ?></h2>
+        <a class="button" href="<?php echo esc_url($category_url ?: home_url('/')); ?>">Ver tudo</a>
     </div>
     <div class="posts-list<?php echo ' ' . $post_list_class; ?>">
             <?php
