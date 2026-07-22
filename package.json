@@ -2,7 +2,7 @@
   "version": "1.0.5",
   "private": true,
   "scripts": {
-    "build": "dir-archiver --src . --dest ../_lockegames.zip --exclude .DS_Store .gitignore .gitattributes composer.json composer.lock gulpfile.js package.json package-lock.json yarn.lock node_modules .yarn .pnp.* pnpm-* .pnpm.* yarn.* app tailwind.config.*",
+    "build": "npm run build:css && dir-archiver --src . --dest ../_lockegames.zip --exclude .DS_Store .gitignore .gitattributes composer.json composer.lock gulpfile.js package.json package-lock.json yarn.lock node_modules .yarn .pnp.* pnpm-* .pnpm.* yarn.* app tailwind.config.*",
     "build:css": "tailwindcss -i ./src/tailwind.css -o ./assets/css/tailwind.css --minify",
     "watch:css": "tailwindcss -i ./src/tailwind.css -o ./assets/css/tailwind.css --watch"
   },
